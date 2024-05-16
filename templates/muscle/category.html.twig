@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les muscles{% endblock %}
+
+{% block body %}
+
+    <main>
+    <!--? Hero Start -->
+    <div class="slider-area2">
+        <div class="slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 pt-70">
+                            <h2>{{category.name}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero End -->
+    <!--? Gallery Area Start -->
+     <div class="gallery-area">
+        <div class="container-fluid ">
+            <div class="row">
+                {% for muscle in category.muscles %}
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <div class="box snake mb-30">
+                        <div class="gallery-img big-img" style="background-image: url(/uploads/muscles/{{ muscle.picture }});"></div>
+                        <div class="overlay">
+                            <div class="overlay-content">
+                                <h3>{{ muscle.name }}</h3>
+                                <a href="gallery.html"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

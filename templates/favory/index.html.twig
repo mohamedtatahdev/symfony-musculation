@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes favoris{% endblock %}
+
+{% block body %}
+
+    <main>
+    <!--? Hero Start -->
+    <div class="slider-area2">
+        <div class="slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 pt-70">
+                            <h2>Mes favoris</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero End -->
+    <!--? Gallery Area Start -->
+     <section class="blog_area section-padding bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <div class="blog_left_sidebar">
+                    {% for exercice in favory %}
+                         <article class="blog_item">
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="/uploads/exercices/{{exercice.picture}}" alt="">
+                               
+                            </div>
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="{{path ('exercice_show', {slug : exercice.slug})}}">
+                                    <h2 class="blog-head" style="color: #2d2d2d;">{{exercice.name}}</h2>
+                                </a>
+                                <p>{{exercice.description | slice(0, 200) | join(' ')}}...</p>
+                                <ul class="blog-info-link">
+                                    <li><a href="{{path('delete_favory',{id : exercice.id})}}"><i class="fa fa-heart"></i> Retirer des favoris</a></li>
+                                </ul>
+                            </div>
+                        </article>
+                    {% endfor %}
+                       
+                        
+                        <nav class="blog-pagination justify-content-center d-flex">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Previous">
+                                        <i class="ti-angle-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link">1</a>
+                                </li>
+                                <li class="page-item active">
+                                    <a href="#" class="page-link">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
+
+
+			
+        
+
