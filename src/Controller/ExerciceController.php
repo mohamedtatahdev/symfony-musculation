@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Vote;
 use App\Entity\Comment;
 use App\Entity\Exercice;
 use App\Form\CommentType;
 use App\Form\ExerciceType;
+use App\Repository\VoteRepository;
 use App\Repository\ExerciceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,4 +57,39 @@ class ExerciceController extends AbstractController
 
         ]);
     }
+
+      #[Route('/exercice/rating/{id}/{score}', name: 'exercice_rating')]
+      public function ratingQuestion(Request $request, Exercice $exercice, int $score, EntityManagerInterface $em, VoteRepository $voteRepo)
+      {
+        $user = $this->getUser();
+        if ($user !== $exercice->getUser()) {
+          $vote = $voteRepo->findOneBy([
+            'user' => $user,
+            'exercice' => $exercice
+          ]);
+          if ($vote) {
+            if (($vote->getIsLiked() && $score > 0) || (!$vote->getIsLiked() && $score < 0)) {
+              $em->remove($vote);
+              $exercice->setRating($exercice->getRating() + ($score > 0 ? -1 : 1));
+            } else {
+              $vote->setIsLiked(!$vote->getIsLiked());
+              $exercice->setRating($exercice->getRating() + ($score > 0 ? 2 : -2));
+            }
+          } else {
+            $vote = new Vote();
+            $vote->setUser($user);
+            $vote->setExercice($exercice);
+            $vote->setIsLiked($score > 0 ? true : false);
+            $exercice->setRating($exercice->getRating() + $score);
+            $em->persist($vote);
+          }
+          $em->flush();
+        }
+        $referer = $request->server->get('HTTP_REFERER');
+        return $referer ? $this->redirect($referer) : $this->redirectToRoute('home');
+      }
+
 }
+
+
+

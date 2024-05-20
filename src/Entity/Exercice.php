@@ -40,9 +40,16 @@ class Exercice
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'exercice', orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\Column]
+    private ?int $rating = 0;
+
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'exercice')]
+    private Collection $votes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +167,48 @@ class Exercice
             // set the owning side to null (unless already changed)
             if ($comment->getExercice() === $this) {
                 $comment->setExercice(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): static
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): static
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setExercice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): static
+    {
+        if ($this->votes->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getExercice() === $this) {
+                $vote->setExercice(null);
             }
         }
 

@@ -1,112 +1,132 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les muscles{% endblock %}
+{% block title %}Tous les muscles
+{% endblock %}
 
 {% block body %}
 
-    <main>
-    <!--? Hero Start -->
-    <div class="slider-area2">
-        <div class="slider-height2 d-flex align-items-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap hero-cap2 pt-70">
-                            <h2>Tous les exercices</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Hero End -->
-    <!--? Gallery Area Start -->
-     <section class="blog_area section-padding bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mb-5 mb-lg-0">
-                    <div class="blog_left_sidebar">
-                    {% for exercice in exercices %}
-                         <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="/uploads/exercices/{{exercice.picture}}" alt="">
-                               
-                            </div>
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="{{path ('exercice_show', {slug : exercice.slug})}}">
-                                    <h2 class="blog-head" style="color: #2d2d2d;">{{exercice.name}}</h2>
-                                </a>
-                                <p>{{exercice.description | slice(0, 200) | join(' ')}}...</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="{{path('add_favory',{id : exercice.id})}}"><i class="fa fa-heart"></i> Ajouté au favoris</a></li>
-                                    <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-                    {% endfor %}
-                       
-                        
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="blog_right_sidebar">
-                        <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword'
-                                        onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Search Keyword'">
-                                        <div class="input-group-append">
-                                            <button class="btns" type="button"><i class="ti-search"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                type="submit">Search</button>
-                            </form>
-                        </aside>
-                        <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title" style="color: #2d2d2d;">Muscles</h4>
-                            <ul class="list cat-list">
-                            {% for muscle in allMuscles %}
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>{{muscle.name}}</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                                
-                                
-                            </ul>
-                        </aside>
-    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
+	<main>
+		<!--? Hero Start -->
+		<div class="slider-area2">
+			<div class="slider-height2 d-flex align-items-center">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-12">
+							<div class="hero-cap hero-cap2 pt-70">
+								<h2>Tous les exercices</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Hero End -->
+		<!--? Gallery Area Start -->
+		<section class="blog_area section-padding bg-light">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 mb-5 mb-lg-0">
+						<div class="blog_left_sidebar">
+							{% for exercice in exercices %}
+								<article class="blog_item">
+									<div class="blog_item_img">
+										<img class="card-img rounded-0" src="/uploads/exercices/{{exercice.picture}}" alt="">
+
+									</div>
+									<div class="blog_details">
+										<a class="d-inline-block" href="{{path ('exercice_show', {slug : exercice.slug})}}">
+											<h2 class="blog-head" style="color: #2d2d2d;">{{exercice.name}}</h2>
+										</a>
+										<p>{{exercice.description | slice(0, 200) | join(' ')}}...</p>
+										<ul class="blog-info-link">
+											<li>
+												<div class="d-flex flex-row align-items-center">
+													<a href="{{ path( 'exercice_rating', { id: exercice.id, score: 1 }) }}">
+														<i class="fa fa-thumbs-up {{ exercice.rating > 0 ? 'rating-up' : '' }}"></i>
+													</a>
+													<p class="text-small {{ exercice.rating > 0 ? 'rating-up' : exercice.rating < 0 ? 'rating-down' : ''}}">
+														{{ exercice.rating }}</p>
+													<a href="{{ path('exercice_rating', { id: exercice.id, score: -1 }) }}">
+														<i class="fa fa-thumbs-down {{ exercice.rating < 0 ? 'rating-down' : '' }}"></i>
+													</a>
+												</div>
+											</li>
+											<li>
+												<a href="{{path('add_favory',{id : exercice.id})}}">
+													<i class="fa fa-heart"></i>
+													Ajouté au favoris</a>
+											</li>
+											<li>
+												<a href="#">
+													<i class="fa fa-comments"></i>
+													03 Comments</a>
+											</li>
+										</ul>
+									</div>
+								</article>
+							{% endfor %}
+
+
+							<nav class="blog-pagination justify-content-center d-flex">
+								<ul class="pagination">
+									<li class="page-item">
+										<a href="#" class="page-link" aria-label="Previous">
+											<i class="ti-angle-left"></i>
+										</a>
+									</li>
+									<li class="page-item">
+										<a href="#" class="page-link">1</a>
+									</li>
+									<li class="page-item active">
+										<a href="#" class="page-link">2</a>
+									</li>
+									<li class="page-item">
+										<a href="#" class="page-link" aria-label="Next">
+											<i class="ti-angle-right"></i>
+										</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="blog_right_sidebar">
+							<aside class="single_sidebar_widget search_widget">
+								<form action="#">
+									<div class="form-group">
+										<div class="input-group mb-3">
+											<input type="text" class="form-control" placeholder='Search Keyword' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+											<div class="input-group-append">
+												<button class="btns" type="button">
+													<i class="ti-search"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">Search</button>
+								</form>
+							</aside>
+							<aside class="single_sidebar_widget post_category_widget">
+								<h4 class="widget_title" style="color: #2d2d2d;">Muscles</h4>
+								<ul class="list cat-list">
+									{% for muscle in allMuscles %}
+										<li>
+											<a href="#" class="d-flex">
+												<p>{{muscle.name}}</p>
+												<p>(37)</p>
+											</a>
+										</li>
+									{% endfor %}
+
+
+								</ul>
+							</aside>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
 
 {% endblock %}

@@ -25,6 +25,7 @@
         "symfony/framework-bundle": "7.0.*",
         "symfony/http-client": "7.0.*",
         "symfony/intl": "7.0.*",
+        "symfony/lock": "7.0.*",
         "symfony/mailer": "7.0.*",
         "symfony/mime": "7.0.*",
         "symfony/monolog-bundle": "^3.0",
@@ -32,6 +33,7 @@
         "symfony/process": "7.0.*",
         "symfony/property-access": "7.0.*",
         "symfony/property-info": "7.0.*",
+        "symfony/rate-limiter": "7.0.*",
         "symfony/runtime": "7.0.*",
         "symfony/security-bundle": "7.0.*",
         "symfony/serializer": "7.0.*",
@@ -43,6 +45,7 @@
         "symfony/validator": "7.0.*",
         "symfony/web-link": "7.0.*",
         "symfony/yaml": "7.0.*",
+        "twig/cssinliner-extra": "^3.10",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },
