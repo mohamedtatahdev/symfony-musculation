@@ -7,27 +7,43 @@ use App\Entity\Comment;
 use App\Entity\Exercice;
 use App\Form\CommentType;
 use App\Form\ExerciceType;
-use App\Repository\CommentRepository;
 use App\Repository\VoteRepository;
+use App\Repository\CommentRepository;
 use App\Repository\ExerciceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/exercices')]
 class ExerciceController extends AbstractController
 {
     #[Route('/', name: 'exercice', methods: ['GET'])]
-    public function index(ExerciceRepository $exerciceRepository): Response
+    public function index(ExerciceRepository $exerciceRepository,PaginatorInterface $paginatorInterface, Request $request): Response
     {
+      $page = $request->query->getInt('page', 1);
+
+      if (!$this->isGranted('IS_AUTHENTICATED_FULLY') && $page > 1) {
+        // Rediriger vers la page de connexion
+        return $this->redirectToRoute('login');
+    }
+        $data = $exerciceRepository->findAll();
+        $exercices = $paginatorInterface->paginate(
+          $data,
+          $page,
+          5
+        );
         return $this->render('exercice/index.html.twig', [
-            'exercices' => $exerciceRepository->findAll(),
+            'exercices' => $exercices,
         ]);
     }
 
     #[Route('/{slug}/{id?}', name: 'exercice_show')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function category($slug, ?int $id = null, ExerciceRepository $exerciceRepository,Request $request, EntityManagerInterface $em,CommentRepository $commentRepository): Response
     {
         $exercice = $exerciceRepository->findOneBySlug($slug);//recupere les cat en fonction du slug

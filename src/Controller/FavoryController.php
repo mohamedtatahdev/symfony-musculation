@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Classe\Favory;
 use App\Repository\ExerciceRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FavoryController extends AbstractController
 {
     #[Route('/mes-favoris', name: 'favory')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+
     public function index(Favory $favory): Response
     {
         return $this->render('favory/index.html.twig', [
@@ -29,6 +32,7 @@ class FavoryController extends AbstractController
     }
 
     #[Route('/favory/delete/{id}', name: 'delete_favory')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function delete($id,  Favory $favory ): Response
     {
         $favory->delete($id);

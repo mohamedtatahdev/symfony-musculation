@@ -16,9 +16,13 @@
 								<li>
 									<a href="{{path ('home')}}">Accueil</a>
 								</li>
-								<li>
-									<a href="{{path ('admin')}}">Admin</a>
-								</li>
+								{% if is_granted('ROLE_ADMIN') %}
+									<li>
+										<a href="{{path ('admin')}}">Admin</a>
+									</li>
+								{% endif %}
+
+
 								<li>
 									<a href="{{path ('app_muscle_index')}}">Muscles</a>
 									<ul class="submenu">
@@ -40,15 +44,17 @@
 					</div>
 					<!-- Header-btn -->
 					<div class="header-btns d-none d-lg-block f-right">
-						
+
 						{% if is_granted('ROLE_USER') %}
-						
-						<a href="{{path ('favory')}}" class="btn"><i class="fa fa-heart"></i></a>
+
+							<a href="{{path ('favory')}}" class="btn">
+								<i class="fa fa-heart"></i>
+							</a>
 
 							<a href="{{path ('logout')}}" class="btn">Déconnexion</a>
 
 						{% else %}
-						<a href="{{path ('signup')}}" class="btn mr-4">Inscription</a>
+							<a href="{{path ('signup')}}" class="btn mr-4">Inscription</a>
 							<a href="{{path ('login')}}" class="btn">Connexion</a>
 
 						{% endif %}

@@ -70,26 +70,9 @@
 							{% endfor %}
 
 {% if app.user %}
-<nav class="blog-pagination justify-content-center d-flex">
-								<ul class="pagination">
-									<li class="page-item">
-										<a href="#" class="page-link" aria-label="Previous">
-											<i class="ti-angle-left"></i>
-										</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link">1</a>
-									</li>
-									<li class="page-item active">
-										<a href="#" class="page-link">2</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link" aria-label="Next">
-											<i class="ti-angle-right"></i>
-										</a>
-									</li>
-								</ul>
-							</nav>
+
+    {{ knp_pagination_render(exercices) }}
+
 
 {% else %}
 	<a href="{{path ('login')}}">Connectez vous pour voir la suite</a>
@@ -123,15 +106,26 @@
 										<li>
 											<a href="#" class="d-flex">
 												<p>{{muscle.name}}</p>
-												<p>(37)</p>
 											</a>
 										</li>
 									{% endfor %}
 
-
 								</ul>
 							</aside>
 
+	<aside class="single_sidebar_widget post_category_widget">
+								<h4 class="widget_title" style="color: #2d2d2d;">Equipments</h4>
+								<ul class="list cat-list">
+									{% for equipment in allEquipments %}
+										<li>
+											<a href="#" class="d-flex">
+												<p>{{equipment.name}}</p>
+											</a>
+										</li>
+									{% endfor %}
+
+								</ul>
+							</aside>
 						</div>
 					</div>
 				</div>
